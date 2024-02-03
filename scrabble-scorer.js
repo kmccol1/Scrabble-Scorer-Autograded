@@ -1,3 +1,12 @@
+//****************************************************************************************
+//
+//    Filename:    scrabble-scorer.js
+//    Date:        2 February 2024
+//    Author:      Kyle McColgan
+//    Description: This program allows users to play a variation of the game 'Scrabble'.
+//
+//****************************************************************************************
+
 // This assignment is inspired by a problem on Exercism (https://exercism.org/tracks/javascript/exercises/etl) that demonstrates Extract-Transform-Load using Scrabble's scoring system. 
 
 const input = require("readline-sync");
@@ -32,8 +41,11 @@ function oldScrabbleScorer(word) {
 // your job is to finish writing these functions and variables that we've named //
 // don't change the names or your program won't work as expected. //
 
-function initialPrompt() {
-   console.log("Let's play some scrabble! Enter a word:");
+function initialPrompt()
+{
+   let word = input.question("Let's play some scrabble! Enter a word: ");
+
+   return word;
 };
 
 let simpleScorer;
@@ -50,9 +62,10 @@ function transform() {};
 
 let newPointStructure;
 
-function runProgram() {
-   initialPrompt();
-   
+function runProgram()
+{
+   let userInput = initialPrompt();
+   console.log(oldScrabbleScorer(userInput));
 }
 
 // Don't write any code below this line //
