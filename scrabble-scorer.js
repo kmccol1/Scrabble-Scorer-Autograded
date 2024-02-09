@@ -25,10 +25,12 @@ const oldPointStructure = {
   10: ['Q', 'Z']
 };
 
+
+
 function oldScrabbleScorerFunc(word)
 {
 	word = word.toUpperCase();
-	let letterPoints = "";
+	let points = 0;
     //let points = 0;
  
 	for (let i = 0; i < word.length; i++)
@@ -39,13 +41,13 @@ function oldScrabbleScorerFunc(word)
  
 		 if (oldPointStructure[pointValue].includes(word[i]))
          {
-			letterPoints += `Points for '${word[i]}': ${pointValue}\n`
-
+			//letterPoints += `Points for '${word[i]}': ${pointValue}\n`
+            points ++;
 		 }
  
 	  }
 	}
-	return letterPoints;
+	return points;
  }
 
 //****************************************************************************************
@@ -79,7 +81,7 @@ function simpleScorerFunc(word)
         //if (simplePointStructure[pointValue].includes(word[i]))
         //{
         //letterPoints += `Points for '${word[i]}': ${pointValue}\n`
-        points++;
+        points ++;
         //console.log("IF Statement");
         //}
 
@@ -99,7 +101,7 @@ function simpleScorerFunc(word)
 function vowelBonusScorerFunc(word)
 {
 	word = word.toUpperCase();
-	let letterPoints = "";
+	let points = 0;
 
 	for (let i = 0; i < word.length; i++)
     {
@@ -109,12 +111,13 @@ function vowelBonusScorerFunc(word)
 
 		 if (vowelPointStructure[pointValue].includes(word[i]))
          {
-             letterPoints += `Points for '${word[i]}': ${pointValue}\n`
+             //letterPoints += `Points for '${word[i]}': ${pointValue}\n`
+             points ++;
 		 }
 
 	  }
 	}
-	return letterPoints;
+	return points;
 }
 
 //****************************************************************************************
@@ -124,7 +127,7 @@ function vowelBonusScorerFunc(word)
 
 function initialPrompt()
 {
-   let word = input.question("Let's play some scrabble! Enter a word: ");
+   let word = input.question("Let's play some Scrabble!\n\nEnter a word to score: ");
 
    return word;
 };
@@ -149,55 +152,48 @@ const scoringAlgorithms = [simpleScorer, vowelBonusScorer, scrabbleScorer];
 
 function scorerPrompt()
 {
-    let result;
-
-    console.log("----------------Scoring algorithms------------");
-    console.log("0................................simple scorer");
-    console.log("1...........................vowel bonus scorer");
-    console.log("2..............................Scrabble scorer");
-    let userInput = input.question("Please select a scoring algorithm (0-2): ");
-
-/*
-    switch(userInput)
-    {
-        case 0:
-            result = scoringAlgorithms[0].scoringFunction();
-            break;
-        case 1:
-            result = vowelBonusScorer;
-            break;
-        case 2:
-            result = scrabbleScorer;
-            break;
-        default:
-            result = "ERROR - Invalid input detected. Please select a valid menu option (0-2): ";
-            break;
-    }
-*/
+    let userInput = input.question("Which scoring algorithm would you like to use?\n\n0 - Simple: One point per character\n1 - Vowel Bonus: Vowels are worth 3 points\n2 - Scrabble: Uses scrabble point system\nEnter 0, 1, or 2: ");
 
    return Number(userInput);
 }
 
 //****************************************************************************************
 
-function transform() {};
+function transform(ogPointStructureObj)
+{
+    let newScoringObj = {}; //lowercase letters as keys.
+
+    for (const value in ogPointStructureObj )
+    {
+        for (let i = 0; i < ogPointStructureObj[value].length; i ++ )
+        {
+            newScoringObj[ogPointStructureObj[value][i].toLowerCase()] = Number(value);
+        }
+
+    }
+
+    return newScoringObj;
+}
 
 //****************************************************************************************
 
-let newPointStructure;
+let newPointStructure = transform(oldPointStructure);
 
 //****************************************************************************************
 
 function runProgram()
 {
-   let userInput = initialPrompt();
+   //let userInput = initialPrompt();
 
-   let scoringAlgorithmNum = scorerPrompt();
+   //let scoringAlgorithmNum = scorerPrompt();
 
    //console.log("Scoring algoithm:", scoringAlgorithms[scoringAlgorithmNum]);
 
-   console.log(`Score for '${userInput}': ${scoringAlgorithms[scoringAlgorithmNum].scoringFunction(userInput)}`);
+   //console.log(`Score for '${userInput}': ${scoringAlgorithms[scoringAlgorithmNum].scoringFunction(userInput)}`);
+    console.log(newPointStructure);
 }
+
+runProgram();
 
 //****************************************************************************************
 
@@ -215,3 +211,19 @@ module.exports = {
 	runProgram: runProgram,
 	scorerPrompt: scorerPrompt
 };
+
+//****************************************************************************************
+
+/*
+Scrabble-Scorer-Autograded> node index
+Let's play some Scrabble!
+
+Enter a word to score: coconut
+Which scoring algorithm would you like to use?
+
+0 - Simple: One point per character
+1 - Vowel Bonus: Vowels are worth 3 points
+2 - Scrabble: Uses scrabble point system
+Enter 0, 1, or 2: 0
+Score for 'coconut': 7
+*/
