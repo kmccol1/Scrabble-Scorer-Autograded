@@ -125,6 +125,15 @@ function scorerPrompt()
 {
     let userInput = input.question("Which scoring algorithm would you like to use?\n\n0 - Simple: One point per character\n1 - Vowel Bonus: Vowels are worth 3 points\n2 - Scrabble: Uses scrabble point system\nEnter 0, 1, or 2: ");
 
+    do
+    {
+        if (userInput != 0 && userInput != 1 && userInput != 2)
+        {
+            userInput = input.question("\nError: Please enter either 0, 1, or 2: ");
+        }
+    }
+    while(userInput != 0 && userInput != 1 && userInput != 2);
+
    return Number(userInput);
 }
 
@@ -167,8 +176,8 @@ function scrabbleScorer(word)
 //****************************************************************************************
 
 let scrabbleScorerObj = {name:"Scrabble",
-                      description:"The traditional scoring algorithm.",
-                      scoringFunction:scrabbleScorer};
+                         description:"The traditional scoring algorithm.",
+                         scoringFunction:scrabbleScorer};
 
 const scoringAlgorithms = [simpleScorerObj, vowelBonusScorerObj, scrabbleScorerObj];
 
